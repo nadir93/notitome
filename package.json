@@ -1,0 +1,21 @@
+{
+  "name": "notitome",
+  "version": "1.0.0",
+  "main": "notitomeByWebdriverio.js",
+  "dependencies": {
+    "appium": "^1.6.4",
+    "wd": "^1.2.0",
+    "wdio-appium-service": "^0.2.3",
+    "webdriverio": "^4.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "description": ""
+}
