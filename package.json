@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "notitomeByWebdriverio.js",
   "dependencies": {
+    "@slack/client": "^3.9.0",
     "appium": "^1.6.4",
+    "bunyan": "^1.8.10",
+    "node-schedule": "^1.2.1",
     "wd": "^1.2.0",
     "wdio-appium-service": "^0.2.3",
     "webdriverio": "^4.8.0"
