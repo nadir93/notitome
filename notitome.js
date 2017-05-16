@@ -65,12 +65,12 @@ schedule.scheduleJob(config.schedule, function() {
       .login(client, config.users[index])
       .job(client, config.users[index])
       .end()
-      .then(function() {
-        loop(++index);
-      })
       .catch(function(e) {
         log.error('error: ', e);
         client.end();
+      })
+      .then(function() {
+        loop(++index);
       });
   }
   loop(0);
