@@ -55,7 +55,7 @@ client
     return process.stop(client);
   });
 
-schedule.scheduleJob(config.schedule, function() {
+//schedule.scheduleJob(config.schedule, function() {
   function loop(index) {
     if (index >= config.users.length) {
       return;
@@ -73,5 +73,10 @@ schedule.scheduleJob(config.schedule, function() {
         loop(++index);
       });
   }
-  loop(0);
-});
+
+  //const timeout = Math.floor(Math.random() * 1800000);
+  //log.debug('timeout: ', timeout);
+  //setTimeout(function() {
+    loop(0);
+  //}, timeout);
+//});
