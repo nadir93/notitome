@@ -17,6 +17,7 @@ const process = require('./lib/process');
 const config = require('./config');
 
 const client = webdriverio.remote({
+  host: '211.243.90.231', //'192.168.0.100',
   port: config.port,
   //logLevel: 'verbose',
   desiredCapabilities: {
@@ -55,7 +56,7 @@ client
     return process.stop(client);
   });
 
-//schedule.scheduleJob(config.schedule, function() {
+schedule.scheduleJob(config.schedule, function() {
   function loop(index) {
     if (index >= config.users.length) {
       return;
@@ -67,16 +68,16 @@ client
       .end()
       .catch(function(e) {
         log.error('error: ', e);
-        client.end();
+        return client.end().pause(10000);
       })
       .then(function() {
         loop(++index);
       });
   }
 
-  //const timeout = Math.floor(Math.random() * 1800000);
-  //log.debug('timeout: ', timeout);
-  //setTimeout(function() {
+  const timeout = Math.floor(Math.random() * 1800000);
+  log.debug('timeout: ', timeout);
+  setTimeout(function() {
     loop(0);
-  //}, timeout);
-//});
+  }, timeout);
+});
