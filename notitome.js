@@ -15,9 +15,10 @@ const schedule = require('node-schedule');
 const webdriverio = require('webdriverio');
 const process = require('./lib/process');
 const config = require('./config');
+const appium = require('appium');
 
 const client = webdriverio.remote({
-  host: '211.243.90.231', //'192.168.0.100',
+  //  host: '211.243.90.231', //'192.168.0.100',
   port: config.port,
   //logLevel: 'verbose',
   desiredCapabilities: {
@@ -56,28 +57,61 @@ client
     return process.stop(client);
   });
 
-schedule.scheduleJob(config.schedule, function() {
-  function loop(index) {
-    if (index >= config.users.length) {
-      return;
-    }
-    client
-      .init()
-      .login(client, config.users[index])
-      .job(client, config.users[index])
-      .end()
-      .catch(function(e) {
-        log.error('error: ', e);
-        return client.end().pause(10000);
-      })
-      .then(function() {
-        loop(++index);
-      });
+loop(0);
+
+//schedule.scheduleJob(config.schedule, function() {
+//  const timeout = Math.floor(Math.random() * 1800000);
+//  log.debug('timeout: ', timeout);
+setInterval(function() {
+  loop(0);
+}, 3660000 /*timeout*/ );
+//});
+
+function loop(index) {
+  if (index >= config.users.length) {
+    log.debug('index: ', index);
+    log.debug('users.length: ', config.users.length);
+    return;
   }
 
-  const timeout = Math.floor(Math.random() * 1800000);
-  log.debug('timeout: ', timeout);
-  setTimeout(function() {
-    loop(0);
-  }, timeout);
-});
+  appium
+    .main({
+      port: 4723,
+      host: '127.0.0.1',
+      'loglevel': 'info'
+    })
+    .then(function(server) {
+      log.debug('appium server started');
+      //return server.close();
+      client
+        .init()
+        .then(function() {
+          log.debug('webdriverio initialized');
+        })
+        .login(client, config.users[index])
+        .then(function() {
+          log.debug('login success');
+        })
+        .job(client, config.users[index])
+        .then(function() {
+          log.debug('job done');
+        })
+        .end()
+        .then(function() {
+          log.debug('webdriverio closed');
+        })
+        .catch(function(e) {
+          log.error('error: ', e);
+          //return client.end().pause(10000);
+        })
+        .then(function() {
+          return server.close();
+        })
+        .then(function() {
+          log.debug('appium server closed');
+        })
+        .then(function() {
+          loop(++index);
+        });
+    })
+}
