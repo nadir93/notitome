@@ -17,46 +17,6 @@ const process = require('./lib/process');
 const config = require('./config');
 const appium = require('appium');
 
-const client = webdriverio.remote({
-  //  host: '211.243.90.231', //'192.168.0.100',
-  port: config.port,
-  //logLevel: 'verbose',
-  desiredCapabilities: {
-    //'browserName': '',
-    //'appiumVersion': '1.6.4',
-    platformName: config.platformName,
-    deviceName: config.deviceName,
-    appPackage: config.appPackage,
-    appActivity: config.appActivity,
-    autoLaunch: true
-  }
-});
-
-client
-  .addCommand('login', function async(client, user) {
-    return process.login(client, user);
-  });
-
-client
-  .addCommand('job', function async(client, user) {
-    return process.job(client, user);
-  });
-
-client
-  .addCommand('start', function async(client) {
-    return process.start(client);
-  });
-
-client
-  .addCommand('showMeTheMoney', function async(client) {
-    return process.showMeTheMoney(client);
-  });
-
-client
-  .addCommand('stop', function async(client) {
-    return process.stop(client);
-  });
-
 loop(0);
 
 //schedule.scheduleJob(config.schedule, function() {
@@ -78,11 +38,52 @@ function loop(index) {
     .main({
       port: 4723,
       host: '127.0.0.1',
-      'loglevel': 'info'
+      'loglevel': 'error'
     })
     .then(function(server) {
       log.debug('appium server started');
       //return server.close();
+
+      const client = webdriverio.remote({
+        //  host: '211.243.90.231', //'192.168.0.100',
+        port: config.port,
+        //logLevel: 'verbose',
+        desiredCapabilities: {
+          //'browserName': '',
+          //'appiumVersion': '1.6.4',
+          platformName: config.platformName,
+          deviceName: config.deviceName,
+          appPackage: config.appPackage,
+          appActivity: config.appActivity,
+          autoLaunch: true
+        }
+      });
+
+      client
+        .addCommand('login', function async(client, user) {
+          return process.login(client, user);
+        });
+
+      client
+        .addCommand('job', function async(client, user) {
+          return process.job(client, user);
+        });
+
+      client
+        .addCommand('start', function async(client) {
+          return process.start(client);
+        });
+
+      client
+        .addCommand('showMeTheMoney', function async(client) {
+          return process.showMeTheMoney(client);
+        });
+
+      client
+        .addCommand('stop', function async(client) {
+          return process.stop(client);
+        });
+
       client
         .init()
         .then(function() {
