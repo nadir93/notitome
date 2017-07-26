@@ -163,6 +163,7 @@ function loop(users, index) {
         .then(function() {
           log.debug('appium server closed');
         })
+        .pause(10000)
         .then(function() {
           loop(users, ++index);
         });
