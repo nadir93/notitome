@@ -22,25 +22,25 @@ const token = config.token || ''; //see section above on sensitive data
 const web = new WebClient(token);
 
 loop(0);
-sendToSlack('`노티투미봇`이 채굴작업을 시작합니다');
+sendToSlack('노티투미봇', '`노티투미봇`이 채굴작업을 시작합니다');
 
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
 setInterval(function() {
   loop(0);
-  sendToSlack('`노티투미봇`이 채굴작업을 시작합니다');
+  sendToSlack('노티투미봇', '`노티투미봇`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
 //});
 
-function sendToSlack(msg) {
+function sendToSlack(title, msg) {
 
   //sendMessage to slack
   web.chat.postMessage(config.channel, null, {
     'attachments': [{
-      'fallback': msg,
+      'fallback': title,
       'color': '#36a64f',
-      'pretext': msg,
+      'pretext': title,
       //  'title': 'Slack API Documentation',
       //  'text': 'Optional text that appears within the attachment',,
       'fields': [{
@@ -69,7 +69,7 @@ function loop(index) {
   if (index >= config.users.length) {
     log.debug('index: ', index);
     log.debug('users.length: ', config.users.length);
-    sendToSlack('`노티투미봇`이 채굴작업을 종료합니다');
+    sendToSlack('노티투미봇', '`노티투미봇`이 채굴작업을 종료합니다');
     return;
   }
 
@@ -134,7 +134,7 @@ function loop(index) {
         })
         .job(client, config.users[index])
         .then(function() {
-          log.debug('job done');
+          log.debug('job finished');
         })
         .end()
         .then(function() {
@@ -142,7 +142,7 @@ function loop(index) {
         })
         .catch(function(e) {
           log.error('error: ', e);
-          sendToSlack(e.message);
+          sendToSlack('노티투미봇 에러발생', e.message);
           //return client.end().pause(10000);
         })
         .then(function() {
