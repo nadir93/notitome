@@ -17,20 +17,59 @@ const process = require('./lib/process');
 const config = require('./config');
 const appium = require('appium');
 
+const WebClient = require('@slack/client').WebClient;
+const token = config.token || ''; //see section above on sensitive data
+const web = new WebClient(token);
+
 loop(0);
+sendToSlack('`노티투미봇`이 채굴작업을 시작합니다');
 
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
 setInterval(function() {
   loop(0);
+  sendToSlack('`노티투미봇`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
 //});
+
+function sendToSlack(msg) {
+
+  //sendMessage to slack
+  web.chat.postMessage(config.channel, null, {
+    'attachments': [{
+      'fallback': msg,
+      'color': '#36a64f',
+      'pretext': msg,
+      //  'title': 'Slack API Documentation',
+      //  'text': 'Optional text that appears within the attachment',,
+      'fields': [{
+        title: '메시지',
+        value: msg,
+        short: false
+      }],
+      'mrkdwn_in': ['text', 'pretext']
+    }],
+    unfurl_links: true,
+    as_user: false,
+    icon_url: 'https://lh5.ggpht.com/o2TT2aEVw9kGTk0CryRAG' +
+      'pTZsotvo7ZmwDhXzq6bnXmPX4p15I0g6Roh6UB5VRx00uU=w300',
+    username: '노티투미',
+  }, (err, res) => {
+    if (err) {
+      log.error('web.chat.postMessage: ', err);
+      return;
+    }
+    saveMoney = 0;
+    log.debug(res);
+  });
+}
 
 function loop(index) {
   if (index >= config.users.length) {
     log.debug('index: ', index);
     log.debug('users.length: ', config.users.length);
+    sendToSlack('`노티투미봇`이 채굴작업을 종료합니다');
     return;
   }
 
@@ -103,6 +142,7 @@ function loop(index) {
         })
         .catch(function(e) {
           log.error('error: ', e);
+          sendToSlack(e.message);
           //return client.end().pause(10000);
         })
         .then(function() {
