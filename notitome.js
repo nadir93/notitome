@@ -21,14 +21,14 @@ const WebClient = require('@slack/client').WebClient;
 const token = config.token || ''; //see section above on sensitive data
 const web = new WebClient(token);
 
-loop(0);
+loop(config.users, 0);
 sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 시작합니다');
 
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
 setInterval(function() {
-  loop(0);
+  loop(config.users, 0);
   sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
 //});
@@ -65,11 +65,21 @@ function sendToSlack(title, msg) {
   });
 }
 
-function loop(index) {
-  if (index >= config.users.length) {
-    log.debug('index: ', index);
-    log.debug('users.length: ', config.users.length);
-    sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 종료합니다');
+let failedUsers = [];
+let retry = false;
+
+function loop(users, index) {
+  if (index >= users.length) {
+    if (!retry && failedUsers.length > 0) {
+      retry = true;
+      loop(failedUsers, 0);
+    } else {
+      retry = false;
+      failedUsers = [];
+      log.debug('index: ', index);
+      log.debug('users.length: ', users.length);
+      sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 종료합니다');
+    }
     return;
   }
 
@@ -128,11 +138,11 @@ function loop(index) {
         .then(function() {
           log.debug('webdriverio initialized');
         })
-        .login(client, config.users[index])
+        .login(client, users[index])
         .then(function() {
           log.debug('login success');
         })
-        .job(client, config.users[index])
+        .job(client, users[index])
         .then(function() {
           log.debug('job finished');
         })
@@ -142,7 +152,8 @@ function loop(index) {
         })
         .catch(function(e) {
           log.error('error: ', e);
-          sendToSlack(config.users[index].name + ' 작업중 에러발생', e.message);
+          failedUsers.push(users[index]);
+          sendToSlack(users[index].name + ' 작업중 에러발생', e.message);
           //return client.end().pause(10000);
         })
         .then(function() {
@@ -152,7 +163,7 @@ function loop(index) {
           log.debug('appium server closed');
         })
         .then(function() {
-          loop(++index);
+          loop(users, ++index);
         });
     })
 }
