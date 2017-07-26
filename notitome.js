@@ -142,7 +142,7 @@ function loop(index) {
         })
         .catch(function(e) {
           log.error('error: ', e);
-          sendToSlack('노티투미봇 에러발생', e.message);
+          sendToSlack(config.users[index].name + ' 작업중 에러발생', e.message);
           //return client.end().pause(10000);
         })
         .then(function() {
