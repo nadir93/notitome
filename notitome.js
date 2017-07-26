@@ -22,14 +22,14 @@ const token = config.token || ''; //see section above on sensitive data
 const web = new WebClient(token);
 
 loop(0);
-sendToSlack('노티투미봇', '`노티투미봇`이 채굴작업을 시작합니다');
+sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 시작합니다');
 
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
 setInterval(function() {
   loop(0);
-  sendToSlack('노티투미봇', '`노티투미봇`이 채굴작업을 시작합니다');
+  sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
 //});
 
@@ -69,7 +69,7 @@ function loop(index) {
   if (index >= config.users.length) {
     log.debug('index: ', index);
     log.debug('users.length: ', config.users.length);
-    sendToSlack('노티투미봇', '`노티투미봇`이 채굴작업을 종료합니다');
+    sendToSlack('botMessage', '`노티투미봇`이 채굴작업을 종료합니다');
     return;
   }
 
