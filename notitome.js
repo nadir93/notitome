@@ -69,7 +69,7 @@ let failedUsers = [];
 let retry = false;
 
 function loop(users, index) {
-  if (index >= users.length || 16 <= users.length) {
+  if (index >= users.length || config.users.length * 2 < users.length) {
     if (!retry && failedUsers.length > 0) {
       log.debug('failedUsers retrying', failedUsers);
       retry = true;
