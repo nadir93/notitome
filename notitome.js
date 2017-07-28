@@ -22,14 +22,14 @@ const token = config.token || ''; //see section above on sensitive data
 const web = new WebClient(token);
 
 loop(config.users, 0);
-sendToSlack('채굴시작', '`노티투미봇`이 채굴작업을 시작합니다');
+sendToSlack('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
 
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
 setInterval(function() {
   loop(config.users, 0);
-  sendToSlack('채굴시작', '`노티투미봇`이 채굴작업을 시작합니다');
+  sendToSlack('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
 //});
 
@@ -60,7 +60,6 @@ function sendToSlack(title, msg) {
       log.error('web.chat.postMessage: ', err);
       return;
     }
-    saveMoney = 0;
     log.debug(res);
   });
 }
@@ -79,7 +78,7 @@ function loop(users, index) {
       failedUsers = [];
       log.debug('index: ', index);
       log.debug('users.length: ', users.length);
-      sendToSlack('채굴종료', '`노티투미봇`이 채굴작업을 종료합니다');
+      sendToSlack('notitome 채굴종료', '`notitomeBot`이 채굴작업을 종료합니다');
     }
     return;
   }
@@ -147,15 +146,15 @@ function loop(users, index) {
         .then(function() {
           log.debug('job finished');
         })
-        .end()
-        .then(function() {
-          log.debug('webdriverio closed');
-        })
         .catch(function(e) {
           log.error('error: ', e);
           failedUsers.push(users[index]);
           sendToSlack(users[index].name + ' 작업중 에러발생', e.message);
           //return client.end().pause(10000);
+        })
+        .end()
+        .then(function() {
+          log.debug('webdriverio closed');
         })
         .then(function() {
           return server.close();
