@@ -14,19 +14,19 @@ const log = new Logger.createLogger({
 var Client = require('ssh2').Client;
 
 var conn = new Client();
-conn.on('error', function(error) {
+conn.on('error', error => {
   log.error('error: ', error.message);
 })
-conn.on('ready', function() {
+conn.on('ready', () => {
   log.debug('Client :: ready');
-  conn.exec('uptime', function(err, stream) {
+  conn.exec('uptime', (err, stream) => {
     if (err) throw err;
-    stream.on('close', function(code, signal) {
+    stream.on('close', (code, signal) => {
       log.debug('Stream :: close :: code: ' + code + ', signal: ' + signal);
       conn.end();
-    }).on('data', function(data) {
+    }).on('data', data => {
       log.debug('STDOUT: ' + data);
-    }).stderr.on('data', function(data) {
+    }).stderr.on('data', data => {
       log.debug('STDERR: ' + data);
     });
   });

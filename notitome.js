@@ -27,7 +27,7 @@ sendToSlack('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
-setInterval(function() {
+setInterval(function () {
   loop(config.users, 0);
   sendToSlack('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
@@ -89,7 +89,7 @@ function loop(users, index) {
       host: '127.0.0.1',
       'loglevel': 'error'
     })
-    .then(function(server) {
+    .then(server => {
       log.debug('appium server started');
       //return server.close();
 
@@ -109,61 +109,61 @@ function loop(users, index) {
       });
 
       client
-        .addCommand('login', function async(client, user) {
+        .addCommand('login', async(client, user) => {
           return process.login(client, user);
         });
 
       client
-        .addCommand('job', function async(client, user) {
+        .addCommand('job', async(client, user) => {
           return process.job(client, user);
         });
 
       client
-        .addCommand('start', function async(client) {
+        .addCommand('start', async client => {
           return process.start(client);
         });
 
       client
-        .addCommand('showMeTheMoney', function async(client) {
+        .addCommand('showMeTheMoney', async client => {
           return process.showMeTheMoney(client);
         });
 
       client
-        .addCommand('stop', function async(client) {
+        .addCommand('stop', async client => {
           return process.stop(client);
         });
 
       client
         .init()
-        .then(function() {
+        .then(() => {
           log.debug('webdriverio initialized');
         })
         .login(client, users[index])
-        .then(function() {
+        .then(() => {
           log.debug('login success');
         })
         .job(client, users[index])
-        .then(function() {
+        .then(() => {
           log.debug('job finished');
         })
-        .catch(function(e) {
+        .catch(e => {
           log.error('error: ', e);
           failedUsers.push(users[index]);
           sendToSlack(users[index].name + ' 작업중 에러발생', e.message);
           //return client.end().pause(10000);
         })
         .end()
-        .then(function() {
+        .then(() => {
           log.debug('webdriverio closed');
         })
-        .then(function() {
+        .then(() => {
           return server.close();
         })
-        .then(function() {
+        .then(() => {
           log.debug('appium server closed');
         })
         .pause(10000)
-        .then(function() {
+        .then(() => {
           loop(users, ++index);
         });
     })
