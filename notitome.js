@@ -11,7 +11,6 @@ const log = new Logger.createLogger({
   level: loglevel
 });
 
-const error = require('./lib/errorHandler');
 const start = require('./lib/start');
 const interval = 3660000;
 
@@ -30,3 +29,14 @@ setInterval(() => {
     })
     .catch(log.error);
 }, interval);
+
+process.on('unhandledRejection', (reason, p) => {
+  log.debug('reason: ', reason);
+  log.debug('p: ', p);
+  throw reason;
+});
+
+process.on('uncaughtException', e => {
+  log.debug('uncaughtException: ', e);
+  log.error(e);
+});
