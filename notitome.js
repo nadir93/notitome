@@ -12,7 +12,7 @@ start()
   .then(() => {
     console.log('completed');
   })
-  .catch(log.error);
+  .catch(console.error);
 
 //1시간주기로 루프F
 setInterval(() => {
@@ -20,7 +20,7 @@ setInterval(() => {
     .then(() => {
       console.log('completed');
     })
-    .catch(log.error);
+    .catch(console.error);
 }, interval);
 
 process.on('unhandledRejection', (reason, p) => {
