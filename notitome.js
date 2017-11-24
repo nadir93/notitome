@@ -13,56 +13,22 @@ const log = new Logger.createLogger({
 
 const schedule = require('node-schedule');
 const webdriverio = require('webdriverio');
-const process = require('./lib/process');
-const config = require('./config');
 const appium = require('appium');
-
-const WebClient = require('@slack/client').WebClient;
-const token = config.token || ''; //see section above on sensitive data
-const web = new WebClient(token);
+const config = require('./config/config');
+const process = require('./lib/process');
+const sender = require('./lib/sender');
 
 loop(config.users, 0);
-sendToSlack('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
+sender.send('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
 
 //schedule.scheduleJob(config.schedule, function() {
 //  const timeout = Math.floor(Math.random() * 1800000);
 //  log.debug('timeout: ', timeout);
 setInterval(function () {
   loop(config.users, 0);
-  sendToSlack('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
+  sender.send('notitome 채굴시작', '`notitomeBot`이 채굴작업을 시작합니다');
 }, 3660000 /*timeout*/ );
 //});
-
-function sendToSlack(title, msg) {
-
-  //sendMessage to slack
-  web.chat.postMessage(config.channel, null, {
-    'attachments': [{
-      'fallback': title,
-      'color': '#36a64f',
-      'pretext': title,
-      //  'title': 'Slack API Documentation',
-      //  'text': 'Optional text that appears within the attachment',,
-      'fields': [{
-        title: '메시지',
-        value: msg,
-        short: false
-      }],
-      'mrkdwn_in': ['text', 'pretext']
-    }],
-    unfurl_links: true,
-    as_user: false,
-    icon_url: 'https://lh5.ggpht.com/o2TT2aEVw9kGTk0CryRAG' +
-      'pTZsotvo7ZmwDhXzq6bnXmPX4p15I0g6Roh6UB5VRx00uU=w300',
-    username: '노티투미',
-  }, (err, res) => {
-    if (err) {
-      log.error('web.chat.postMessage: ', err);
-      return;
-    }
-    log.debug(res);
-  });
-}
 
 let failedUsers = [];
 let retry = false;
@@ -78,7 +44,7 @@ function loop(users, index) {
       failedUsers = [];
       log.debug('index: ', index);
       log.debug('users.length: ', users.length);
-      sendToSlack('notitome 채굴종료', '`notitomeBot`이 채굴작업을 종료합니다');
+      sender.send('notitome 채굴종료', '`notitomeBot`이 채굴작업을 종료합니다');
     }
     return;
   }
@@ -149,7 +115,7 @@ function loop(users, index) {
         .catch(e => {
           log.error('error: ', e);
           failedUsers.push(users[index]);
-          sendToSlack(users[index].name + ' 작업중 에러발생', e.message);
+          sender.send(users[index].name + ' 작업중 에러발생', e.message);
           //return client.end().pause(10000);
         })
         .end()
