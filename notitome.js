@@ -14,7 +14,7 @@ start()
   })
   .catch(console.error);
 
-//1시간주기로 루프F
+//1시간주기로 루프
 setInterval(() => {
   start()
     .then(() => {
