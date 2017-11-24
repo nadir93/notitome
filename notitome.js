@@ -17,12 +17,16 @@ const interval = 3660000;
 
 //처음시작
 start()
-  .then()
+  .then(() => {
+
+  })
   .catch(log.error);
 
 //1시간주기로 루프F
 setInterval(() => {
   start()
-    .then()
-    .catch();
+    .then(() => {
+
+    })
+    .catch(log.error);
 }, interval);
