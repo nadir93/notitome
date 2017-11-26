@@ -8,19 +8,19 @@ const start = require('./lib/start');
 const interval = 3660000;
 
 //처음시작
-main();
+start();
 
 //1시간주기로 루프
-setInterval(main, interval);
+setInterval(start, interval);
 
-async function main() {
-  try {
-    const result = await start();
-    console.log(result);
-  } catch (e) {
-    console.error(e);
-  }
-}
+// async function main() {
+//   try {
+//     const result = await start();
+//     console.log(result);
+//   } catch (e) {
+//     console.error(e);
+//   }
+// }
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('reason: ', reason);
