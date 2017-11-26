@@ -13,15 +13,6 @@ start();
 //1시간주기로 루프
 setInterval(start, interval);
 
-// async function main() {
-//   try {
-//     const result = await start();
-//     console.log(result);
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }
-
 process.on('unhandledRejection', (reason, p) => {
   console.log('reason: ', reason);
   console.log('p: ', p);
