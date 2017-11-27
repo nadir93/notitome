@@ -11,6 +11,7 @@ const log = new Logger.createLogger({
   level: loglevel
 });
 
+const publicIp = require('public-ip');
 const start = require('../lib/start');
 const interval = 3660000;
 
@@ -33,7 +34,28 @@ process.on('uncaughtException', e => {
 
 module.exports = function (robot) {
 
-  robot.respond(/수조온도/i, function (msg) {
-    log.debug('msg: ', msg);
+  robot.respond(/ip/i, function (msg) {
+    //log.debug('msg: ', msg);
+
+    publicIp.v4()
+      .then(ip => {
+        log.debug(ip);
+        //=> '46.5.21.123'
+        msg.send({
+          "attachments": [{
+            //"title": "trlog get {전화번호}",
+            "pretext": " *myRealIP* ",
+            //"text": "https://www.npmjs.com/package/crstankbot",
+            "fields": [{
+              "title": "IP",
+              "value": "" + ip,
+              "short": false
+            }],
+            "image_url": "https://raw.githubusercontent.com/nadir93/crstankbot/master/res/crstankbot.png",
+            "mrkdwn_in": ["text", "pretext", "fields"],
+            "color": "good"
+          }]
+        });
+      });
   });
 }
