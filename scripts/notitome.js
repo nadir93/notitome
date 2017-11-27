@@ -4,14 +4,21 @@
  */
 'use strict';
 
-const start = require('./lib/start');
+const Logger = require('bunyan');
+const loglevel = 'debug';
+const log = new Logger.createLogger({
+  name: 'notitome',
+  level: loglevel
+});
+
+const start = require('../lib/start');
 const interval = 3660000;
 
-//처음시작
-start();
+// //처음시작
+// start();
 
-//1시간주기로 루프
-setInterval(start, interval);
+// //1시간주기로 루프
+// setInterval(start, interval);
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('reason: ', reason);

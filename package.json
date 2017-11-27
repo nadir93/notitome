@@ -1,24 +1,42 @@
 {
   "name": "notitome",
-  "version": "1.0.0",
-  "main": "notitomeByWebdriverio.js",
+  "version": "0.0.0",
+  "private": true,
+  "author": "@nadir93",
+  "description": "A simple helpful robot for your Company",
   "dependencies": {
-    "@slack/client": "^3.9.0",
-    "appium": "^1.6.4",
-    "bunyan": "^1.8.10",
-    "node-schedule": "^1.2.1",
-    "wd": "^1.2.0",
-    "wdio-appium-service": "^0.2.3",
-    "webdriverio": "^4.8.0"
+    "hubot": "^2.19.0",
+    "hubot-diagnostics": "0.0.2",
+    "hubot-google-images": "^0.2.7",
+    "hubot-google-translate": "^0.2.1",
+    "hubot-help": "^0.2.2",
+    "hubot-heroku-keepalive": "^1.0.3",
+    "hubot-maps": "0.0.3",
+    "hubot-pugme": "^0.1.1",
+    "hubot-redis-brain": "0.0.4",
+    "hubot-rules": "^0.1.2",
+    "hubot-scripts": "^2.17.2",
+    "hubot-shipit": "^0.2.1",
+    "hubot-slack": "^4.4.0"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "main": "notitome.js",
+  "directories": {
+    "test": "test"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
-  "directories": {
-    "test": "test"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nadir93/notitome.git"
   },
-  "description": ""
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nadir93/notitome/issues"
+  },
+  "homepage": "https://github.com/nadir93/notitome#readme"
 }
