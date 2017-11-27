@@ -44,14 +44,13 @@ module.exports = function (robot) {
         msg.send({
           "attachments": [{
             //"title": "trlog get {전화번호}",
-            "pretext": " *myRealIP* ",
+            //"pretext": " ** ",
             //"text": "https://www.npmjs.com/package/crstankbot",
             "fields": [{
-              "title": "IP",
+              "title": "odroid ip address",
               "value": "" + ip,
               "short": false
             }],
-            "image_url": "https://raw.githubusercontent.com/nadir93/crstankbot/master/res/crstankbot.png",
             "mrkdwn_in": ["text", "pretext", "fields"],
             "color": "good"
           }]
