@@ -11,6 +11,7 @@ const log = new Logger.createLogger({
   level: loglevel
 });
 
+const _ = require('lodash');
 const publicIp = require('public-ip');
 const start = require('../lib/start');
 const config = require('../config/config');
