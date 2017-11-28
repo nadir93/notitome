@@ -4,6 +4,9 @@
     "script": "bin/hubot",
     "exec_interpreter": "sh",
     "args": "--adapter slack",
-    "watch": ["package.json", "external-scripts.json", "scripts/", "hubot-scripts.json", "bin/hubot"]
+    "watch": ["package.json", "external-scripts.json", "scripts/", "hubot-scripts.json", "bin/hubot"],
+ "env": {
+            "HUBOT_SLACK_TOKEN": "xoxb-9330755927-25TNP9MfObDilkumeAJ8hMl2"
+        }
   }]
 }

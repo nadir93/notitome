@@ -5,6 +5,9 @@
   "author": "@nadir93",
   "description": "A simple helpful robot for your Company",
   "dependencies": {
+    "@slack/client": "^3.14.2",
+    "appium": "^1.6.5",
+    "bunyan": "^1.8.12",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.2",
     "hubot-google-images": "^0.2.7",
@@ -17,12 +20,13 @@
     "hubot-rules": "^0.1.2",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.1",
-    "hubot-slack": "^4.4.0"
+    "hubot-slack": "^4.4.0",
+    "public-ip": "^2.3.5",
+    "webdriverio": "^4.8.0"
   },
   "engines": {
     "node": "0.10.x"
   },
-  "main": "notitome.js",
   "directories": {
     "test": "test"
   },
