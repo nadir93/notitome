@@ -13,6 +13,7 @@ const log = new Logger.createLogger({
 
 const publicIp = require('public-ip');
 const start = require('../lib/start');
+const config = require('../config/config');
 const interval = 3660000;
 
 //처음시작
@@ -53,8 +54,48 @@ module.exports = function (robot) {
             }],
             "mrkdwn_in": ["text", "pretext", "fields"],
             "color": "good"
-          }]
+          }],
+          unfurl_links: true,
+          as_user: false,
+          icon_url: 'https://lh5.ggpht.com/o2TT2aEVw9kGTk0CryRAG' +
+            'pTZsotvo7ZmwDhXzq6bnXmPX4p15I0g6Roh6UB5VRx00uU=w300',
+          username: '노티투미'
         });
       });
+  });
+
+  robot.respond(/money/i, function (msg) {
+    //log.debug('msg: ', msg);
+
+    const users = [];
+    _.forEach(config.users, function (user) {
+      users.push({
+        'title': '사용자',
+        'value': user.name,
+        'short': false
+      });
+      users.push({
+        'title': '총적립금',
+        'value': util.numberWithCommas(user.savedMoney) + '원',
+        'short': true
+      });
+    });
+
+    msg.send({
+      'attachments': [{
+        'fallback': '`적립금` 리스트',
+        'color': '#36a64f',
+        'pretext': '`적립금` 리스트',
+        //  'title': 'Slack API Documentation',
+        //  'text': 'Optional text that appears within the attachment',
+        'fields': users,
+        'mrkdwn_in': ['text', 'pretext']
+      }],
+      unfurl_links: true,
+      as_user: false,
+      icon_url: 'https://lh5.ggpht.com/o2TT2aEVw9kGTk0CryRAG' +
+        'pTZsotvo7ZmwDhXzq6bnXmPX4p15I0g6Roh6UB5VRx00uU=w300',
+      username: '노티투미'
+    });
   });
 }
