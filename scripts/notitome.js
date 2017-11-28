@@ -70,6 +70,7 @@ module.exports = function (robot) {
     //log.debug('msg: ', msg);
 
     const users = [];
+    let totalSavedMoney = 0;
     _.forEach(config.users, function (user) {
       users.push({
         'title': '사용자',
@@ -77,10 +78,17 @@ module.exports = function (robot) {
         'short': true
       });
       users.push({
-        'title': '총적립금',
+        'title': '적립금',
         'value': util.numberWithCommas(user.savedMoney) + '원',
         'short': true
       });
+      totalSavedMoney += user.savedMoney;
+    });
+
+    users.push({
+      'title': '총적립금',
+      'value': util.numberWithCommas(totalSavedMoney) + '원',
+      'short': true
     });
 
     msg.send({
