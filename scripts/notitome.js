@@ -15,6 +15,7 @@ const _ = require('lodash');
 const publicIp = require('public-ip');
 const start = require('../lib/start');
 const config = require('../config/config');
+const util = require('../lib/util');
 const interval = 3660000;
 
 //처음시작
