@@ -74,7 +74,7 @@ module.exports = function (robot) {
       users.push({
         'title': '사용자',
         'value': user.name,
-        'short': false
+        'short': true
       });
       users.push({
         'title': '총적립금',
