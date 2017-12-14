@@ -1,17 +1,14 @@
-'use strict';
-
 const Logger = require('bunyan');
+
 const loglevel = 'debug';
 const log = new Logger.createLogger({
   name: 'test',
-  level: loglevel
+  level: loglevel,
 });
 
 const server = require('../lib/server');
 const config = require('../config/config');
 const client = require('../lib/client');
-
-test();
 
 async function test() {
   try {
@@ -22,13 +19,14 @@ async function test() {
   } finally {
     await server.stop();
   }
-
 }
 
-function pause() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      return resolve();
-    }, 10000); //10초
-  })
-}
+test();
+
+// function pause() {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       return resolve();
+//     }, 10000); //10초
+//   })
+// }
