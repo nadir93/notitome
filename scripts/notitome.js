@@ -38,7 +38,7 @@ process.on('uncaughtException', (e) => {
 
 module.exports = (robot) => {
   robot.respond(/ip/i, (msg) => {
-    // log.debug('msg: ', msg);
+    log.debug('msg: ', msg);
 
     publicIp.v4()
       .then((ip) => {
@@ -66,7 +66,7 @@ module.exports = (robot) => {
   });
 
   robot.respond(/money/i, (msg) => {
-    // log.debug('msg: ', msg);
+    log.debug('msg: ', msg);
     const users = [];
     let totalSavedMoney = 0;
     _.forEach(config.users, (user) => {
