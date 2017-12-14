@@ -36,8 +36,8 @@ process.on('uncaughtException', (e) => {
   log.error(e);
 });
 
-module.exports = (robot) => {
-  robot.respond(/ip/i, (msg) => {
+module.exports = function (robot) {
+  robot.respond(/ip/i, function (msg) {
     log.debug('msg: ', msg);
 
     publicIp.v4()
@@ -65,7 +65,7 @@ module.exports = (robot) => {
       });
   });
 
-  robot.respond(/money/i, (msg) => {
+  robot.respond(/money/i, function (msg) {
     log.debug('msg: ', msg);
     const users = [];
     let totalSavedMoney = 0;
