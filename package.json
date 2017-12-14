@@ -8,6 +8,8 @@
     "@slack/client": "^3.14.2",
     "appium": "^1.6.5",
     "bunyan": "^1.8.12",
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb": "^16.1.0",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.2",
     "hubot-google-images": "^0.2.7",
@@ -21,7 +23,9 @@
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.1",
     "hubot-slack": "^4.4.0",
-    "public-ip": "^2.3.5",
+    "lodash": "^4.17.4",
+    "public-ip": "^2.4.0",
+    "ssh2": "^0.5.5",
     "webdriverio": "^4.8.0"
   },
   "engines": {
@@ -30,7 +34,10 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
